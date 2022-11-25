@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- 부트 스트랩 임포트 (부트스트랩 엘리먼트 없어도 기본 폰트 변경) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</head>
+
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: solid 2px #202124;
+        border-radius: 20px;
+        width: 430px;
+        padding: 50px;
+        margin-top: 30px;
+    }
+    .title {
+        text-align: center;
+    }
+    div{
+        margin-bottom: 10px;
+    }
+    input:focus{
+        outline: solid 2px #202124;
+    }
+    #submitBtn{
+        margin: 20px 0  0 100px;
+        border: solid 2px #eeeeee;
+        border-radius: 10px;
+        background-color: #202124;
+        color: #eeeeee;
+        padding: 7px 15px 7px 15px;
+    }
+</style>
+<body>
+    <h1 class="title">React S.A 과제</h1>
+    <h5 class="title">-HTML 태그로 화면 구성하기-</h5>
+    <!-- 컨텐츠 정렬 컨테이너 -->
+    <div class="container">
+        <!-- 인풋 값 전달 위한 폼 태그 -->
+        <form id="submitForm">
+            <div class="inputDiv">
+                <!-- 이름 입력 인풋 -->
+                <div class="firstNameDiv">
+                    <label>
+                        <div>First name : </div>
+                        <input type="text" maxlength="10" id="firstName" class="textInput" required>
+                    </label>
+                </div>
+                <!-- 성(이름) 입력 인풋 -->
+                <div class="lastNameDiv">
+                    <label>
+                        <div>Last name : </div>
+                        <input type="text" maxlength="10" id="lastName"  class="textInput" required>
+                    </label>
+                </div>
+                <!-- 이메일 입력 인풋 -->
+                <div class="EmailDiv">
+                    <label>
+                        <div>Email : </div>
+                        <input type="text" id="email"  class="textInput" required>
+                    </label>
+
+                </div>
+            </div>
+            <div class="selectDiv">
+                <!-- 성별 셀렉 인풋 단일 선택-->
+                <div class="genderDiv">
+                    <span>Gender : </span>
+                    <label>
+                        <input id="maleRadio" type="radio" name="gender" class="maleCheck" required>
+                        Male
+                    </label>
+                    <label>
+                        <input id="femaleRadio" type="radio" name="gender" class="femaleCheck" required>
+                        Female
+                    </label>
+                </div>
+                <!-- 선호하는 언어 셀렉 인풋 복수 선택 -->
+                <div class="favoriteDiv">
+                    <span>Favorite : </span>
+                    <input type="checkbox" class="favor1" name="HTML"> HTML&nbsp
+                    <input type="checkbox" class="favor2" name="JAVA"> JAVA&nbsp
+                    <input type="checkbox" class="favor3" name="JavaScript"> JavaScript
+                </div>
+                <!-- 브라우저 셀렉 인풋 -->
+                <div class="browserDiv">
+                    <span>Browser : </span>
+                    <select id="selectDiv">
+                        <option id="sel-title" value="selTitle">=Select Browser=</option>
+                        <option id="sel-chrome" value="chrome">크롬</option>
+                        <option id="sel-safari" value="safari">사파리</option>
+                        <option id="sel-fireFox" value="firefox">파이어폭스</option>
+                        <option id="sel-edge" value="edge">엣지</option>
+                    </select>
+                </div>
+                <!-- 생년월일 입력 인풋 -->
+                <div class="birthdayDiv">
+                    <span>Birthday : </span>
+                    <label>
+                        <input id="calendar" type="date" min="1930-01-01" max="2018-12-31" >
+                    </label>
+                </div>
+            </div>
+            <button id="submitBtn" type="submit">제출</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('submitForm').onsubmit = () => {
+        /* 이름, 성, 이메일 입력값 받아오기 */
+        let firstName = $('#firstName')[0].value;
+        let lastName = $('#lastName')[0].value;
+        let email = $('#email')[0].value;
+        let gender = $('#femaleRadio')[0].checked === true ? 'Female' : 'Male'
+        /* 선호하는 언어 셀렉 값 받아온 후 문자열로 정리(중복 처리) */
+        let favor_html = $('.favor1')[0];
+        let favor_java = $('.favor2')[0];
+        let favor_JS = $('.favor3')[0];
+        let langArr = [favor_html, favor_java, favor_JS];
+        let favorlangStr = '';
+        let favorLang = langArr.filter(v => v.checked === true).map(v => favorlangStr += `${v.name}, `);
+        
+        /* 생년월일 셀렉값 가져오기 */
+        let sel_browser = $('#selectDiv')[0].value;
+        let sel_calendar =$('#calendar')[0].value;
+        
+        /* 프로그래밍 언어 선택 유효성 */
+        if(favor_html.checked === false && 
+        favor_java.checked === false &&
+        favor_JS.checked === false) { 
+            alert('선호하는 언어를 선택하세요');
+            return false;
+        } 
+        /* 브라우저 선택 유효성 */
+        else if(sel_browser === 'selTitle') {
+            alert('사용하는 브라우저를 선택하세요'); 
+            return false;
+        } 
+        /* 생일선택 유효성 */
+        else if(sel_calendar === '') {
+            alert('생년월일을 입력하세요');
+            return false;
+        } else {
+            alert(`제출되었습니다 !
+            ===입력하신 내용===
+            이름 : ${firstName}
+            성: ${lastName}
+            이메일: ${email}
+            성별: ${gender}
+            선호하는 언어: ${favorlangStr.substr(0, favorlangStr.length-2)}
+            사용 브라우저: ${sel_browser}
+            생년월일: ${sel_calendar}
+            `)
+        }
+        }
+    </script>
+</body>
+</html>
